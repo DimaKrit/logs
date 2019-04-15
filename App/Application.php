@@ -14,12 +14,12 @@ class Application
      * @var RouterInterface
      */
     protected $router;
-	protected $loger;
+	protected $logger;
 
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;
-		$this->loger = new FileLogger();
+		$this->logger = new FileLogger();
     }
 
     public function handleRequest(RequestInterface $request)
@@ -37,7 +37,7 @@ class Application
         $class = $route->getClass();
 
         if (!class_exists($class)) {
-			$this->loger->log(FileLogger::ERROR, 'Controller ' . $class . ' does not exists');
+			$this->logger->log(FileLogger::ERROR, 'Controller ' . $class . ' does not exists');
             throw new \Exception('Controller class does not exists');
         }
 
@@ -49,7 +49,7 @@ class Application
         $action = $route->getAction();
 
         if (!method_exists($controller, $action)) {
-			$this->loger->log(FileLogger::ERROR, $action . ' does not exists');
+			$this->logger->log(FileLogger::ERROR, $action . ' does not exists');
             throw new \Exception('Action does not exists');
         }
 
@@ -71,7 +71,7 @@ class Application
         } elseif (is_string($result)) {
             echo $result;
         } else {
-			$this->loger->log(FileLogger::ERROR, 'Unsuported type');
+			$this->logger->log(FileLogger::ERROR, 'Unsuported type');
             throw new \Exception('Unsuported type');
         }
     }

@@ -17,6 +17,11 @@ class FileLogger implements LoggerInterface
 
 	public function log($level, $message, array $context = [])
 	{
+
+		if (!file_exists($this->rootPathDir)) {
+			mkdir($this->rootPathDir, 0777, true);
+		}
+
 		$fileName = date("Y_m_d_H") . ".log";
 
 		file_put_contents($this->rootPathDir . $fileName, trim(strtr($this->template, [
